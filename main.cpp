@@ -7,20 +7,45 @@ Code, Compile, Run and Debug online from anywhere in world.
 
 *******************************************************************************/
 #include <iostream>
-
 using namespace std;
-
-int main()
-{
-   int n,dem=0;
-   cin>>n;
-   int arr[n];
-   for (int i=0;i<n;i++) cin>>arr[i];
-   for (int i=0;i<n-1;i++) {
-       for (int k=i+1;k<n;k++){
-           if (arr[i]==arr[k]) dem++;
-   }
-   }
-cout<<dem;
-    return 0;
+struct node{
+    int data;
+    node* next;
+    node* prev;
+    node(){
+    next=nullptr;
+    prev=nullptr;
+    }
+};
+void Insert(node*&head,int x){
+    node*newnode=new  node;
+    newnode->data=x;
+    newnode->next=head;
+    if (head!=nullptr){
+        head->prev=newnode;
+    }
+    head=newnode;
+}
+int check(node*&head,int n){
+     int dem=0;
+    if(n<3) return 0;
+    else {
+        head=head->next;
+        while(head->next!=nullptr){
+            if (head->data+head->next->data+head->prev->data==0) dem++;
+        head=head->next;
+        }
+    }
+    return dem;
+}
+int main(){
+    int n;
+    cin>>n;
+    node*head=nullptr;
+    for (int i=0;i<n;i++){
+        int x;
+        cin>>x;
+        Insert(head,x);
+    }
+    cout<<check(head,n);
 }
