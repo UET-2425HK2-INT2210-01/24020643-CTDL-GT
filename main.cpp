@@ -7,45 +7,57 @@ Code, Compile, Run and Debug online from anywhere in world.
 
 *******************************************************************************/
 #include <iostream>
+#include <string>
+#include <vector>
 using namespace std;
 struct node{
     int data;
-    node* next;
-    node* prev;
-    node(){
-    next=nullptr;
-    prev=nullptr;
-    }
+    node* next=nullptr;
 };
-void Insert(node*&head,int x){
-    node*newnode=new  node;
-    newnode->data=x;
-    newnode->next=head;
-    if (head!=nullptr){
-        head->prev=newnode;
+struct Stack{
+    node *head=nullptr;
+    int sizestack=0;
+    void Insert(int p){
+        node *newnode=new node;
+        newnode->data=p;
+        if (sizestack==0) head=newnode;
+        else {
+            newnode->next=head;
+            head=newnode;
+        }
+        sizestack++;
     }
-    head=newnode;
-}
-int check(node*&head,int n){
-     int dem=0;
-    if(n<3) return 0;
+    void Delete(){
+    node *tmp=head;
+    if (tmp==nullptr) return ;
     else {
         head=head->next;
-        while(head->next!=nullptr){
-            if (head->data+head->next->data+head->prev->data==0) dem++;
-        head=head->next;
+        delete tmp;
+        sizestack--;
         }
     }
-    return dem;
-}
+    void Print(){
+         vector<int> s;
+    for (node *tmp=head;tmp!=nullptr;tmp=tmp->next){
+        s.insert(s.begin(),tmp->data);
+    }
+    for(int i=0;i<s.size();i++) cout<<s[i]<<" ";
+    }
+};
 int main(){
     int n;
     cin>>n;
-    node*head=nullptr;
+    cin.ignore();
+    Stack head;
     for (int i=0;i<n;i++){
-        int x;
-        cin>>x;
-        Insert(head,x);
+        string s;
+        getline(cin,s);
+        if (s.substr(0,4)=="push"){
+            int a=stoi(s.substr(5));
+            head.Insert(a);
+        }
+        else head.Delete();
     }
-    cout<<check(head,n);
+    head.Print();
+
 }
