@@ -1,73 +1,44 @@
-#include <iostream>
-#include <string>
-using namespace std;
-class node{
-public:
-    int data;
-    int p;
-    node* prev = nullptr;
-    node* next = nullptr;
-};
-class Priqueue{
-public :
-    node* head;
-    int sizeq = 0;
-    void Enqueue (int x, int y){
-        node* newnode =new node;
-        newnode->data = x;
-        newnode->p = y;
-        if (sizeq == 0) head = newnode;
-        else {
-            newnode->next = head;
-            head->prev = newnode;
-            head = newnode;
-        }
-        node* tmp = head;
-        while (tmp->next != nullptr){
-            if ( tmp->p < tmp->next->p ) {
-                    swap( tmp->data ,tmp->next->data);
-                    swap( tmp->p ,tmp->next->p);
-                tmp = tmp->next;
-            }
-            else break;
-        }
-        sizeq++;
-    }
-    void Dequeue(){
-        if(sizeq == 0 ) return ;
-        node* tmp = head;
-        head = head->next;
-        if ( head) head->prev = nullptr;
-        delete tmp;
-        sizeq--;
-    }
-    void Print (){
-        for (node* tmp = head ; tmp != nullptr; tmp = tmp->next){
-            cout <<"("<<tmp->data<<","<<tmp->p<<");";
-        }
-        cout<<endl;
-    }
-};
-int main(){
-    Priqueue s;
-    int n;
-    cin>>n;
-    cin.ignore();
-    string a;
-    for (int i = 0;i < n;i++){
-        getline(cin,a);
-        string b = a.substr(0,a.find(' '));
-        if (b == "enqueue") {
-            int c = a.find(' ');
-            int d = a.find(' ',c+1);
-           // cout<<m<<" "<<n<<endl;
-            int x = stoi( a.substr(c+1,d-c));
-            int y = stoi (a.substr(d+1));
-            s.Enqueue(x,y);
-        }
-        else s.Dequeue();
-    }
-    s.Print();
-    return 0;
-}
+// Hash functtion h(i) = (2i + 5 ) mod 11		
+		
+// i	2i+5	mod 11
+// 12	29	7
+// 44	93	5
+// 13	31	9
+// 88	181	5
+// 23	51	7
+// 94	193	6
+// 11	27	5
+// 39	83	6
+// 20	45	1
+// 16	37	4
+// 5	15	4
 
+
+// Chaining 	
+// Key 	Values 
+// 0	empty
+// 1	20
+// 2	empty
+// 3	empty
+// 4	16 ->5
+// 5	44 --> 88 -->11
+// 6	94 --> 39
+// 7	12 --> 23
+// 8	empty
+// 9	13 -->
+// 10	empty
+
+
+// Linear Probing	
+// Key 	Values
+// 0	11
+// 1	39
+// 2	20
+// 3	16
+// 4	5
+// 5	44
+// 6	88
+// 7	12
+// 8	23
+// 9	13
+// 10	94

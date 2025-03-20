@@ -1,59 +1,55 @@
-#include <iostream>
-using namespace std;
-class Node{
-    public:
-    char data;
-    Node *next=nullptr;
+// Hash functtion h(i) = (i +3) mod 17		
+		
+// i	i+3	mod 17
+// 1	4	4
+// 3	6	6
+// 18	21	4
+// 8	11	11
+// 23	26	9
+// 35	38	4
+// 11	14	14
+// 36	39	5
+// 20	23	6
+// 16	19	2
 
-};
-class Stack{
-public:
-    Node* head;
-    int sizes = 0;
-    void Insert(char s){
-        Node *newnode = new Node;
-        newnode->data = s;
-        if (sizes == 0) head = newnode;
-        else {
-            newnode->next = head;
-            head = newnode;
-    }
-    sizes++;
-    }
-    void Delete(){
-        if (sizes == 0) return ;
-        Node* tmp = head;
-        head = head->next;
-        delete tmp;
-        sizes--;
-    }
-    char Get(){
-        return head->data;
 
-    }
-};
-string check(string s){
-    Stack st;
-    for (int i = 0;i < s.size();i ++){
-        if (s[i] == '('||(s[i] == '[')||(s[i] == '{')) st.Insert( s[i] );
+// Chaining 	
+// Key 	Values 
+// 0	empty
+// 1	empty
+// 2	16
+// 3	empty
+// 4	4 --> 18 --> 35
+// 5	36
+// 6	3 --> 20
+// 7	empty
+// 8	empty
+// 9	35
+// 10	empty
+// 11	8
+// 12	empty
+// 13	empty
+// 14	11
+// 15	empty
+// 16	empty
 
-        else {
-            if (st.sizes == 0) return "NO";
-            else if (st.Get() == '('&& s[i] == ')' ) st.Delete();
-            else if (st.Get() == '['&& s[i] == ']' ) st.Delete();
-            else if (st.Get() == '{'&& s[i] == '}' ) st.Delete();
-            else st.Insert(s[i]);
-        }
-    }
-    if (st.sizes == 0 ) return "YES";
-    else return "NO";
-}
-int main(){
-    int n;
-    cin>>n;
-    for (int i = 0;i < n; i++){
-    string s;
-    cin>>s;
-    cout<<check(s)<<endl;
-    }
-}
+
+// Linear Probing	
+// Key 	Values
+// 0	empty
+// 1	empty
+// 2	2
+// 3	empty
+// 4	1
+// 5	18
+// 6	3
+// 7	35
+// 8	36
+// 9	23
+// 10	20
+// 11	8
+// 12	empty
+// 13	empty
+// 14	11
+// 15	empty
+// 16	empty
