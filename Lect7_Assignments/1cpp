@@ -1,0 +1,91 @@
+#include <iostream> 
+#include <fstream>
+#include <vector>
+using namespace std;
+int Partition( vector < int >& arr , int l , int r ){ // thao tac partion tra ve pivot
+    int p = arr[ r ];
+    int i = l - 1;
+    for ( int j = l ; j <= r ; j++ ){
+        if ( arr[ j ] <= p ){
+            i++;
+            swap( arr[ i ] , arr[ j ] );
+        }
+    }
+    return i ;
+}
+void Quicksort( vector< int >& arr, int l , int r ){
+    if ( l <= r ){ // điều kiện dừng đệ quy 
+        int pivot = Partition ( arr, l , r ); // chọn pivot qua thao tac partion
+        Quicksort( arr, l , pivot - 1 ); // sap xep mang con trai pivot
+        Quicksort( arr, pivot + 1 , r ); // sap xep mang con phai pivot
+    }
+}
+int main(){
+    int n ; 
+    ifstream infile;
+    infile.open( "numbers.txt" ); // mở file numbers.txt
+    if ( !infile.is_open() ) { // kiểm tra xem file đã được mở ch 
+        cout << " Ko mo duoc file ";
+    }
+    else {
+        vector < int > arr; // thao tác chép dữ liệu vào vector
+        while ( infile >> n ){
+            arr.push_back( n );
+        }
+        infile.close(); // dong file sau khi doc xong
+        Quicksort( arr , 0 , arr.size() - 1 );
+        ofstream outfile;
+        outfile.open("numbers.sorted"); // mở file để chép dữ liệu 
+        for ( int x : arr ) { // thao tac chep
+            outfile << x;
+            outfile << " ";
+        }
+        outfile.close();
+    }
+    return 0;
+} 
+
+
+
+// Pseudocode : 
+// FUNCTION Particion(  arr , l , r )
+//     SET p TO arr[ n ]
+//     SET i TO l - 1 
+//     FOR  i TO l to r 
+//         IF ( arr[ j ] <= p ) THEN 
+//             i = i + 1
+//             swap arr[ i ] WITH arr[ j ] 
+//         ENDIF
+//     ENDFOR
+//     RETURN i 
+// ENDFUNCTION
+// FUNCTION Quicksort ( arr , l , r )
+//     IF ( l <= r ) THEN 
+//         SET pivot TO CALL Particion( arr , l , r )
+//         CALL Quicksort( arr , l , pivot - 1 )
+//         CALL Quicksort( arr , pivot + 1 , r )
+//     ENDIF
+// ENDFUNCTION
+// MAIN 
+//     DECLARE n AS INTERGER
+//     OPEN "numbers.txt" AS infile FOR READING
+//     IF ( infile CAN NOT OPEN ) THEN 
+//         PRINT " Ko mo duoc file "
+//     ELSE 
+//         DECLARE v AS LIST OF INTERGER
+//         WHILE ( infile HAS NEXT INTERGER )
+//             READ n FROM TO infile
+//             APPEND n TO arr
+//         ENDWHILE
+//         CLOSE infile
+//         CALL Quicksort( arr , 0 , LENGTH( arr ) - 1)
+//         OPEN"numbers.sorted.txt" AS outfile FOR WRITING
+//         FOR ( EACH x IN arr )
+//             WRITE x TO outfile
+//             WRITE " " TO outfile
+//         ENDFOR
+//         CLOSE outfile
+//     ENDIF
+//     RETURN 0
+// ENDMAIN
+    
